@@ -53,17 +53,78 @@ class UserLoginView(RetrieveAPIView):
 
 ######################################### Product ############################
 
+# class Products(RetrieveAPIView):
+
+#     permission_classes = (AllowAny,)
+#     authentication_class = JSONWebTokenAuthentication
+
+#     def get(self, request):
+#         try:
+#             product_list = Product.objects.all()
+#             status_code = status.HTTP_200_OK
+#             if product_list:
+#                 response = {
+#                     'success': 'true',
+#                     'status code': status_code,
+#                     'message': 'Product List fetched successfully',
+#                     'data': ProductlistSerializer(product_list,many=True).data
+#                     }
+
+#             else:
+#                 response = {
+#                     'success': 'true',
+#                     'status code': status_code,
+#                     'message': 'Product List fetched successfully',
+#                     'data': [{}]
+#                     }
+
+#         except Exception as e:
+#             status_code = status.HTTP_400_BAD_REQUEST
+#             response = {
+#                 'success': 'false',
+#                 'status code': status.HTTP_400_BAD_REQUEST,
+#                 'message': 'Product List not exists',
+#                 'error': str(e)
+#                 }
+#         return Response(response, status=status_code)
+        
+# class Product_create(CreateAPIView):
+
+#     permission_classes = (IsAuthenticated,)
+#     authentication_class = JSONWebTokenAuthentication
+#     serializer_class = ProductlistSerializer
+
+#     def post(self, request):
+#         serializer = self.serializer_class(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#         status_code = status.HTTP_201_CREATED
+#         response = {
+#             'success' : 'True',
+#             'status code' : status_code,
+#             'message': 'Product List Created  successfully',
+#         }
+#         return Response(response, status=status_code)
+
+
+
+
+
+
+
+
 
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.renderers import JSONRenderer
 import json
 
 @api_view(["GET"])
 @csrf_exempt
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny,])
 def Products(request):
     user = request.user.id
     products = Product.objects.all()
@@ -73,7 +134,7 @@ def Products(request):
 
 @api_view(["POST"])
 @csrf_exempt
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny,])
 def Product_create(request):
     user = request.user
     import ipdb; ipdb.set_trace()
@@ -97,7 +158,7 @@ def Product_create(request):
 
 @api_view(["PUT"])
 @csrf_exempt
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny,])
 def Product_update(request, product_id):
     user = request.user.id
     try:
@@ -116,7 +177,7 @@ def Product_update(request, product_id):
 
 @api_view(["DELETE"])
 @csrf_exempt
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny,])
 def Product_delete(request, product_id):
     user = request.user.id
     try:
