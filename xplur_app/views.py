@@ -137,7 +137,6 @@ def Products(request):
 @permission_classes([AllowAny,])
 def Product_create(request):
     user = request.user
-    import ipdb; ipdb.set_trace()
     try:
         payload = json.loads(request.body)
         product = Product.objects.create(
